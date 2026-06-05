@@ -11,9 +11,8 @@ class TaskController extends Controller
     public function index()
     {
         //タスク一覧を表示
-        $list = Task::select('title', 'body')->orderBy('created_at', 'desc')->get();
-
-        return view('tasks.index', compact('list'));
+        $tasks = Task::orderBy('due_date', 'desc')->where('user_id', session('user_id'))->get();
+        return view('tasks.index', compact('tasks'));
     }
     public function create()
     {
@@ -28,33 +27,52 @@ class TaskController extends Controller
             'body' => 'nullable|max:1000',
             'status' => 'required|in:未着手,進行中,完了',
             'due_date' => 'nullable|date',
-        ]);
-
+            ]);
+        $stmt += array('user_id' => session('user_id'));
         Task::create($stmt);
 
         return redirect()->route('Task.index')->with('success', '投稿が完了しました！');
     }
 
-    public function edit()
+    public function edit(int $id)
     {
         //タスク編集フォーム表示
-        return view('tasks.edit');
+        $task = Task::findOrFail($id);
+        return view('tasks.edit', compact("task"));
     }
-    public  function update()
+    public  function update(Request $request, $id)
     {
         //タスク更新処理
-        $posts = Post::orderBy('created_at', 'desc')->get();
+        $up = Task::find($id);
+        $up->fill($request->all());
+        $up->save();
+        return redirect()->route('Task.index')->with('success', 'データを更新しました。');
 
-        return view('posts.index', compact('posts'));
     }
 
     //タスク削除処理
     public function destroy(int $id)
     {
+        $tasks = Task::findOrFail($id);
+        $tasks->delete();
 
-        $tasks = Task::find($id);
-
-        return view('tasks/edit');
+        // 削除完了後に一覧画面へリダイレクト
+        return redirect()->route('Task.index')->with('success', 'データを削除しました。');
     }
 }
-//タスク削除処理フォーム resources/views/tasks/edit.blade.php
+        //タスク削除処理フォーム resources/views/tasks/edit.blade.php
+        
+        // $task = Task::find($tasks_id);
+        // $task=  Task::delete($id);
+
+        // return view('tasks/edit');
+
+// public function delete(int $id, int $task_id)
+// {
+//     $task = Task::find($task_id);
+
+//     $task->delete();
+
+//     return redirect()->route('tasks.index', [
+//         'id' => $id
+//     ]);

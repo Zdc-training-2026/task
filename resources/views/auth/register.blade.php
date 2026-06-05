@@ -16,6 +16,7 @@
     <input type="password" name="password" id="password" required><br>
     <label for="password_confirmation">パスワードの確認</label><br>
     <input type="password" name="password_confirmation" id="password_confirmation" required><br>
-    <input type="submit" value="登録">
+    <button type="submit">登録</button>
 </form>
+<p>登録済みですか？<a href="{{route('Auth.showLogin')}}">ログイン</a></p>
 @endsection

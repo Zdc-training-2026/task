@@ -50,7 +50,7 @@ class AuthController extends Controller
 
     public function logout() {                      //ログアウト処理
         session()->forget('user_id');                  
-        return redirect()->route('Auth.login');         //ログアウトしてログイン画面に遷移
+        return redirect()->route('Auth.showLogin')->with('success', 'ログアウトしました');         //ログアウトしてログイン画面に遷移
     }
 }
 
