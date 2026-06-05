@@ -4,11 +4,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\AuthController;
 
-Route::get('/register',     [AuthController::class, 'showRegister'])->name('Auth.showRegister');
-Route::post('/register',    [AuthController::class, 'register'])    ->name('Auth.register');
-Route::post('/login',       [AuthController::class, 'showLogin'])   ->name('Auth.showLogin');
-Route::post('/register',    [AuthController::class, 'login'])       ->name('Auth.login');
-Route::post('/register',    [AuthController::class, 'logout'])      ->name('Auth.logout');
+Route::get('/register', [AuthController::class, 'showRegister'])->name('Auth.showRegister');
+Route::post('/register',[AuthController::class, 'register'])    ->name('Auth.register');
+Route::get('/login',    [AuthController::class, 'showLogin'])   ->name('Auth.showLogin');
+Route::post('/login',   [AuthController::class, 'login'])       ->name('Auth.login');
+Route::post('/logout',  [AuthController::class, 'logout'])      ->name('Auth.logout');
 
 
 Route::middleware(['auth'])->group(function () {

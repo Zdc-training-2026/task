@@ -10,7 +10,6 @@ class User extends Model
         'name',
         'email',
         'password'
-
     ];
 
     public function tasks()

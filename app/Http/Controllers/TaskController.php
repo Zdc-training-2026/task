@@ -10,44 +10,51 @@ class TaskController extends Controller
 {
     public function index()
     {
-        //掲示板の一覧を時間の新しい順に取得して、ビューで使えるようにしてるっぽい
+        //タスク一覧を表示
         $list = Task::select('title', 'body')->orderBy('created_at', 'desc')->get();
 
         return view('tasks.index', compact('list'));
     }
     public function create()
     {
-        //掲示板の一覧を時間の新しい順に取得して、ビューで使えるようにしてるっぽい
-        $form = Task::orderBy('created_at', 'desc')->get();
-
-        return view('posts.index', compact('form'));
+        //タスク作成フォーム表示
+        return view('tasks.create');
     }
-    public function store()
+    public function store(Request $request)
     {
-        //掲示板の一覧を時間の新しい順に取得して、ビューで使えるようにしてるっぽい
-        $posts = Post::orderBy('created_at', 'desc')->get();
+        //タスク保存
+        $stmt = $request->validate([
+            'title' => 'required|max:100',
+            'body' => 'nullable|max:1000',
+            'status' => 'required|in:未着手,進行中,完了',
+            'due_date' => 'nullable|date',
+        ]);
 
-        return view('posts.index', compact('posts'));
+        Task::create($stmt);
+
+        return redirect()->route('Task.index')->with('success', '投稿が完了しました！');
     }
+
     public function edit()
     {
-        //掲示板の一覧を時間の新しい順に取得して、ビューで使えるようにしてるっぽい
-        $posts = Post::orderBy('created_at', 'desc')->get();
-
-        return view('posts.index', compact('posts'));
+        //タスク編集フォーム表示
+        return view('tasks.edit');
     }
     public  function update()
     {
-        //掲示板の一覧を時間の新しい順に取得して、ビューで使えるようにしてるっぽい
+        //タスク更新処理
         $posts = Post::orderBy('created_at', 'desc')->get();
 
         return view('posts.index', compact('posts'));
     }
-    public function destroy()
-    {
-        //掲示板の一覧を時間の新しい順に取得して、ビューで使えるようにしてるっぽい
-        $posts = Post::orderBy('created_at', 'desc')->get();
 
-        return view('posts.index', compact('posts'));
+    //タスク削除処理
+    public function destroy(int $id)
+    {
+
+        $tasks = Task::find($id);
+
+        return view('tasks/edit');
     }
 }
+//タスク削除処理フォーム resources/views/tasks/edit.blade.php
