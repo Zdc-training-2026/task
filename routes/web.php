@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\AuthController;
+use App\Http\Middleware\AuthMiddleware;
 
 Route::get('/register', [AuthController::class, 'showRegister'])->name('Auth.showRegister');
 Route::post('/register',[AuthController::class, 'register'])    ->name('Auth.register');
@@ -11,7 +12,7 @@ Route::post('/login',   [AuthController::class, 'login'])       ->name('Auth.log
 Route::post('/logout',  [AuthController::class, 'logout'])      ->name('Auth.logout');
 
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(AuthMiddleware::class)->group(function () {
     Route::get('/tasks',            [TaskController::class, 'index'])   ->name('Task.index');
     Route::get('/tasks/create',     [TaskController::class, 'create'])  ->name('Task.create');
     Route::post('/tasks',           [TaskController::class, 'store'])   ->name('Task.store');
@@ -19,4 +20,3 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/tasks/{task}',     [TaskController::class, 'update'])  ->name('Task.update');
     Route::delete('/tasks/{task}',  [TaskController::class, 'destroy']) ->name('Task.destroy');
 });
-

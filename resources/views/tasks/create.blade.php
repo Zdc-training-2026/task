@@ -4,6 +4,14 @@
     タスク作成
 @endsection
 
+@section('header')
+<h3>{{session("user_name")}}様</h3>
+<form action="{{route("Auth.logout")}}" method="POST">
+    @csrf
+    <button type="submit">ログアウト</button>
+</form>
+@endsection
+
 @section('content')
     <h1>新しいタスクを作成</h1>
 
@@ -26,7 +34,7 @@
         @csrf {{-- クロスサイトリクエストフォージェリ対策 --}}
 
             <label for="title">タスク名:</label>
-            <input type="text" id="title" name="title" value="{{ old('title') }}">
+            <input type="text" id="title" name="title" value="{{ old('title') }}" required>
 
             <label for="body">内容:</label>
             <input type="text" id="body" name="body" value="{{ old('body') }}">
@@ -44,7 +52,9 @@
             <label for="due_date">期限:</label><br>
             <input type="date" id="due_date" name="due_date" value="{{ old('due_date') }}"/><br><br>
 
-        <button type="submit" style="color: blue">登録</button>
-        <a href="{{route("Task.index")}}"><button style="color: red">キャンセル</button></a>
+        <div style="display:flex; gap:12px; margin-top:8px;">
+            <button type="submit" style="color: blue">登録</button>
+            <button type="button" onclick="location.href='{{ route('Task.index') }}'" style="color: red">キャンセル</button>
+        </div>
     </form>
 @endsection

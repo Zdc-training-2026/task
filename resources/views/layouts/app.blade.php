@@ -1,11 +1,18 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <title>@yield('title', 'タスク管理')</title>
-        <style>
+    <style>
         /* リセット */
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
         /* 全体 */
         body {
@@ -17,13 +24,25 @@
 
         /* ヘッダー */
         header {
-            background: #1D9E75;
+            background: navy;
             color: #fff;
             padding: 0.875rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
+
         header h1 {
             font-size: 1.1rem;
             font-weight: 500;
+        }
+
+        /* ヘッダー内のフォームやボタンを中央揃えにする */
+        header form {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0;
         }
 
         /* メインコンテンツ */
@@ -54,11 +73,13 @@
             margin-bottom: 0.75rem;
             transition: border-color 0.2s;
         }
+
         input[type="text"]:focus,
         textarea:focus {
             outline: none;
             border-color: #1D9E75;
         }
+
         input[type="email"],
         textarea {
             width: 100%;
@@ -70,11 +91,13 @@
             margin-bottom: 0.75rem;
             transition: border-color 0.2s;
         }
+
         input[type="email"]:focus,
         textarea:focus {
             outline: none;
             border-color: #1D9E75;
         }
+
         input[type="password"],
         textarea {
             width: 100%;
@@ -86,6 +109,7 @@
             margin-bottom: 0.75rem;
             transition: border-color 0.2s;
         }
+
         input[type="password"]:focus,
         textarea:focus {
             outline: none;
@@ -107,10 +131,28 @@
             cursor: pointer;
             transition: opacity 0.15s;
         }
-        .btn:hover { opacity: 0.85; }
-        .btn-primary  { background: #1D9E75; color: #fff; }
-        .btn-danger   { background: none; border: 1px solid #ccc; color: #888; font-size: 0.8rem; padding: 0.25rem 0.75rem; }
-        .btn-danger:hover { border-color: #e24b4a; color: #e24b4a; }
+
+        .btn:hover {
+            opacity: 0.85;
+        }
+
+        .btn-primary {
+            background: #1D9E75;
+            color: #fff;
+        }
+
+        .btn-danger {
+            background: none;
+            border: 1px solid #ccc;
+            color: #888;
+            font-size: 0.8rem;
+            padding: 0.25rem 0.75rem;
+        }
+
+        .btn-danger:hover {
+            border-color: #e24b4a;
+            color: #e24b4a;
+        }
 
         /* アラート */
         .alert {
@@ -119,11 +161,13 @@
             margin-bottom: 1rem;
             font-size: 0.9rem;
         }
+
         .alert-success {
             background: #E1F5EE;
             color: #0F6E56;
             border: 1px solid #5DCAA5;
         }
+
         .alert-error {
             background: #FCEBEB;
             color: #A32D2D;
@@ -139,11 +183,13 @@
         }
     </style>
 </head>
+
 <body>
 
     {{-- ヘッダー --}}
     <header>
-        <h1>タスク管理アプリ</h1>
+        <a href="{{route('Task.index')}}" style="text-decoration: none; color: inherit;"><h1>タスク管理アプリ</h1></a>
+        @yield('header')
     </header>
 
     {{-- メインコンテンツ（各ページの内容がここに入る） --}}
@@ -157,4 +203,5 @@
     </footer>
 
 </body>
+
 </html>

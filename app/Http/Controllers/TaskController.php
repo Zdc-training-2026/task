@@ -11,7 +11,7 @@ class TaskController extends Controller
     public function index()
     {
         //タスク一覧を表示
-        $tasks = Task::orderBy('due_date', 'desc')->where('user_id', session('user_id'))->get();
+        $tasks = Task::orderBy('due_date', 'asc')->where('user_id', session('user_id'))->get();
         return view('tasks.index', compact('tasks'));
     }
     public function create()
@@ -47,7 +47,6 @@ class TaskController extends Controller
         $up->fill($request->all());
         $up->save();
         return redirect()->route('Task.index')->with('success', 'データを更新しました。');
-
     }
 
     //タスク削除処理
@@ -60,19 +59,3 @@ class TaskController extends Controller
         return redirect()->route('Task.index')->with('success', 'データを削除しました。');
     }
 }
-        //タスク削除処理フォーム resources/views/tasks/edit.blade.php
-        
-        // $task = Task::find($tasks_id);
-        // $task=  Task::delete($id);
-
-        // return view('tasks/edit');
-
-// public function delete(int $id, int $task_id)
-// {
-//     $task = Task::find($task_id);
-
-//     $task->delete();
-
-//     return redirect()->route('tasks.index', [
-//         'id' => $id
-//     ]);

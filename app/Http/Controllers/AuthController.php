@@ -11,7 +11,6 @@ class AuthController extends Controller
 {
     public function showRegister()              //登録フォーム表示
     {
-        // $Registration = $this->
         return view('auth.register');
     }
 
@@ -24,10 +23,6 @@ class AuthController extends Controller
         ]);
 
         $data["password"] = Hash::make($data["password"]);  //ハッシュ化をする
-
-        // $request->user()->fill([                        
-        //     'password' => Hash::make($request->newPassword)
-        // ])->save();
 
         User::create($data);                        //データベースへ書き込み
         return redirect()->route('Auth.login');     //ログイン画面へ遷移(returnで処理終了)
@@ -45,11 +40,13 @@ class AuthController extends Controller
             return back()->withErrors(['email' => '認証に失敗しました']);         //エラーメッセージが出るようにしたつもり
         }
         session (['user_id' => $user->id]);                                     
+        session (['user_name' => $user->name]);                                     
         return redirect()->route('Task.index');                                 //照合できたら'Task.index'に遷移
     }
 
     public function logout() {                      //ログアウト処理
         session()->forget('user_id');                  
+        session()->forget('user_name');                  
         return redirect()->route('Auth.showLogin')->with('success', 'ログアウトしました');         //ログアウトしてログイン画面に遷移
     }
 }

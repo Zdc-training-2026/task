@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Support\Facades\Auth; 
+use Illuminate\Support\Facades\Auth;
 
 class AuthMiddleware
 {
@@ -16,17 +16,10 @@ class AuthMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check()) {
-            return redirect('/index');
-        } else {
-
-            return redirect('/login');
+        if (!session('user_id')) {
+            return redirect()->route('Auth.login');
         }
-
-
         return $next($request);
     }
 }
 
-// ミドルウェア考えてた
-//リターンどーするのでおわった

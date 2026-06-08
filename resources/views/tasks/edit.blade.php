@@ -4,6 +4,14 @@
     タスクを編集
 @endsection
 
+@section('header')
+<h3>{{session("user_name")}}様</h3>
+<form action="{{route("Auth.logout")}}" method="POST">
+    @csrf
+    <button type="submit">ログアウト</button>
+</form>
+@endsection
+
 @section('content')
     <h1>タスクを編集</h1>
 
@@ -36,8 +44,10 @@
 
             <label for="due_date">期限:</label><br>
             <input type="date" id="due_date" name="due_date" value="{{ old('due_date',$task->due_date) }}"/><br><br>
-        <button type="submit" style="color: blue">更新</button>
-        <a href="{{route("Task.index")}}"><button style="color: red">キャンセル</button></a>
+            <div style="display:flex; gap:12px; margin-top:8px;">
+                <button type="submit" style="color: blue">更新</button>
+                <button type="button" onclick="location.href='{{ route('Task.index') }}'" style="color: red">キャンセル</button>
+            </div>
     </form>
 @endsection
 
